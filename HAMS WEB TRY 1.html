@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAMS - Interactive Project Overview</title>
+    <style>
+        /* CSS for styling the webpage */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            background-color: #005a9c;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-button {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: #ffffff;
+            color: #005a9c;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #005a9c;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        /* --- Page Sections --- */
+        .page {
+            display: none; /* Hide all pages by default */
+        }
+        .page.active {
+            display: block; /* Show only the active page */
+        }
+
+        h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #005a9c;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 1.8em;
+        }
+        h3 {
+            color: #0073b1;
+            margin-top: 30px;
+            font-size: 1.4em;
+        }
+
+        ul { list-style-type: disc; padding-left: 20px; }
+        li { margin-bottom: 10px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #0073b1; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .grid-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .grid-item h4 { margin-top: 0; color: #005a9c; }
+
+        .math-formula {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #eef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 1.1em;
+            white-space: pre-wrap;
+        }
+        .interpretation { font-style: italic; color: #4CAF50; font-weight: bold; }
+        .interpretation.negative { color: #f44336; }
+
+        .placeholder {
+            text-align: center;
+            padding: 50px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #777;
+            background-color: #fafafa;
+        }
+        .placeholder h3 {
+            margin-top: 0;
+            color: #0073b1;
+        }
+
+        .risk-item {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .assumption-item {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .constraint-item {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .functional-req {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .non-functional-req {
+            background-color: #e2e3e5;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .budget-highlight {
+            background-color: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffc107;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <button class="nav-button active" data-page="business-case">Business Case</button>
+        <button class="nav-button" data-page="project-charter">Project Charter</button>
+        <button class="nav-button" data-page="kick-off">Kick-Off Meeting</button>
+        <button class="nav-button" data-page="project-diagrams">WBS, Gantt & Network</button>
+        <button class="nav-button" data-page="cost-management">Cost Management</button>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Healthcare Appointment Management System (HAMS) 🏥</h1>
+        </header>
+
+        <div id="business-case" class="page active">
+            <h2>Business Case</h2>
+            
+            <h3>1. Introduction/Background</h3>
+            <p>Healthcare services are essential for maintaining individuals' health and treating illnesses, and they require a high level of accuracy and reliability. However, manual appointment scheduling often results in errors, inefficiencies, and patient dissatisfaction. The Healthcare Appointment Management System (HAMS) is designed to automate and streamline the appointment scheduling process, ensuring greater efficiency, accuracy, and improved patient satisfaction.</p>
+
+            <h3>2. Business Objectives</h3>
+            <ul>
+                <li>To implement an automated appointment scheduling system.</li>
+                <li>To enhance efficiency in managing healthcare staff and patients.</li>
+                <li>To protect patient privacy and minimize scheduling errors.</li>
+                <li>To improve monitoring, reporting, and performance evaluation.</li>
+            </ul>
+
+            <h3>3. Current Situation and Problem / Opportunity Statement</h3>
+            <p><strong>Current Problems:</strong> Manual work makes mistakes and gives bad experience for patients.</p>
+            <ul>
+                <li>Appointments are written and managed by hand.</li>
+                <li>This causes missing information, double booking, and wasted time.</li>
+                <li>Patients feel their privacy is not safe.</li>
+            </ul>
+            <p><strong>Opportunity:</strong> The opportunity is to use HAMS to make appointments automatic, faster, and more accurately.</p>
+
+            <h3>4. Critical Assumptions and Constraints</h3>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Assumptions</h4>
+                    <div class="assumption-item">
+                        <strong>Staff Adaptation:</strong> Staff and patients will adapt to the new system.
+                    </div>
+                    <div class="assumption-item">
+                        <strong>IT Infrastructure:</strong> Necessary IT infrastructure is available.
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <h4>Constraints</h4>
+                    <div class="constraint-item">
+                        <strong>Internet Dependency:</strong> Dependence on reliable internet connectivity.
+                    </div>
+                    <div class="constraint-item">
+                        <strong>User Resistance:</strong> People find it hard to communicate with machines instead of staff.
+                    </div>
+                    <div class="constraint-item">
+                        <strong>Resources:</strong> Limited budget and time availability.
+                    </div>
+                </div>
+            </div>
+
+            <h3>5. Preliminary Project Requirements</h3>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Functional Requirements</h4>
+                    <div class="functional-req">Appointment scheduling</div>
+                    <div class="functional-req">Automated notifications</div>
+                    <div class="functional-req">Patient information management</div>
+                    <div class="functional-req">Reports and analytics</div>
+                    <div class="functional-req">Resource management</div>
+                    <div class="functional-req">Register and login modules</div>
+                </div>
+                <div class="grid-item">
+                    <h4>Non-Functional Requirements</h4>
+                    <div class="non-functional-req">Security</div>
+                    <div class="non-functional-req">Ease of use</div>
+                    <div class="non-functional-req">Scalability/expandability</div>
+                    <div class="non-functional-req">Data documentation</div>
+                    <div class="non-functional-req">Maintainability</div>
+                </div>
+            </div>
+
+            <h3>6. Budget Estimate and Financial Analysis</h3>
+            <div class="budget-highlight">
+                <h4>Estimated Budget: $25,000 – $40,000</h4>
+                <p>Including software development, hardware, training, and maintenance</p>
+            </div>
+
+            <h3>7. Schedule Estimate</h3>
+            <div class="timeline-item">
+                <strong>Requirements gathering & analysis:</strong> 1 month
+            </div>
+            <div class="timeline-item">
+                <strong>System design & development:</strong> 3–4 months
+            </div>
+            <div class="timeline-item">
+                <strong>Testing & quality assurance:</strong> 1 month
+            </div>
+            <div class="timeline-item">
+                <strong>Deployment & training:</strong> 1 month
+            </div>
+            <div class="budget-highlight">
+                <h4>Total Estimated Duration: 6–7 months</h4>
+            </div>
+
+            <h3>8. Potential Risks</h3>
+            <div class="risk-item">
+                <strong>Technical Risks:</strong> Integration with existing healthcare systems.
+            </div>
+            <div class="risk-item">
+                <strong>Operational Risks:</strong> Staff resistance or insufficient training.
+            </div>
+            <div class="risk-item">
+                <strong>Financial Risks:</strong> Budget overruns due to additional features.
+            </div>
+            <div class="risk-item">
+                <strong>Security Risks:</strong> Data breaches if security is not properly enforced.
+            </div>
+        </div>
+
+        <div id="project-charter" class="page">
+            <h2>Project Charter</h2>
+            <p><strong>Date:</strong> 15/02/2025</p>
+            
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Project Details</h4>
+                    <strong>Title:</strong> Healthcare Appointment Management System (HAMS)<br>
+                    <strong>Start Date:</strong> 01/09/2025<br>
+                    <strong>Projected Finish Date:</strong> 01/03/2026
+                </div>
+                <div class="grid-item">
+                    <h4>Budget Information</h4>
+                    <strong>Estimated Budget:</strong> 128,400 USD (≈ 91,036 JOD)
+                </div>
+                <div class="grid-item">
+                    <h4>Project Manager</h4>
+                    <strong>Name:</strong> Amal Al-Da'abseh<br>
+                    <strong>Phone:</strong> +962-7XXXXXXXX<br>
+                    <strong>Email:</strong> amal@example.com
+                </div>
+            </div>
+
+            <h3>Project Objectives</h3>
+            <ul>
+                <li>Implement an automated healthcare appointment scheduling system.</li>
+                <li>Enhance efficiency, reduce errors, and improve patient privacy.</li>
+                <li>Provide notifications, reporting, and analytics features.</li>
+                <li>Ensure security, usability, and system maintainability.</li>
+            </ul>
+
+            <h3>Success Criteria</h3>
+            <ul>
+                <li>System deployed and fully functional within 6 months.</li>
+                <li>At least 80% of staff trained and able to use the system.</li>
+                <li>Reduction of appointment scheduling errors by 60%.</li>
+                <li>Patient satisfaction with scheduling process improved by 70%.</li>
+            </ul>
+
+            <h3>Approach</h3>
+            <ul>
+                <li>Follow SDLC methodology (Requirements → Analysis → Design → Development → Testing → Deployment).</li>
+                <li>Use modular design for scalability and maintainability.</li>
+                <li>Ensure compliance with healthcare privacy and security standards.</li>
+                <li>Conduct continuous monitoring and post-deployment support.</li>
+            </ul>
+
+            <h3>Roles and Responsibilities</h3>
+            <table>
+                <thead>
+                    <tr><th>Name</th><th>Role</th><th>Position</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Amal Al-Da'abseh</td><td>Project Manager</td><td>Team Lead</td></tr>
+                    <tr><td>Reem Banat</td><td>Analyst</td><td>System Analyst</td></tr>
+                    <tr><td>Abdelrahman Zahran</td><td>Developer</td><td>Backend Developer</td></tr>
+                    <tr><td>[TBD-Designer]</td><td>Designer</td><td>UI/UX Designer</td></tr>
+                    <tr><td>[TBD - Tester]</td><td>QA Engineer</td><td>Software Tester</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="kick-off" class="page">
+            <h2>Kick Off Meeting</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Meeting Details</h4>
+                    <strong>Date:</strong> 15/02/2025<br>
+                    <strong>Project Name:</strong> Healthcare Appointment Management System (HAMS)
+                </div>
+            </div>
+
+            <h3>Meeting Objective</h3>
+            <p>Get the project off to an effective start by introducing key stakeholders, reviewing project goals, and discussing plans for automating healthcare appointment scheduling.</p>
+
+            <h3>Agenda</h3>
+            <ul>
+                <li>Introductions of attendees (Project Manager, Developers, Analyst, UI/UX Designer, QA, Healthcare Staff Representative).</li>
+                <li>Review of the project background (current issues with manual scheduling, inefficiency, errors, patient dissatisfaction).</li>
+                <li>Review of project-related documents (Business Case, Project Charter).</li>
+                <li>Discussion of project organizational structure (roles: Admin, Employees, Patients).</li>
+                <li>Discussion of project scope, time, and cost goals (6 months, budget ≈ 128,400 USD / 91,036 JOD).</li>
+                <li>Discussion of system features (appointment scheduling, notifications, patient info management, reports & analytics).</li>
+                <li>Discussion of non-functional requirements (security, privacy, ease of use, maintainability).</li>
+                <li>Other important topics (training plan for staff, risk management, data privacy compliance).</li>
+                <li>List of action items from meeting.</li>
+            </ul>
+
+            <h3>Action Items</h3>
+            <table>
+                <thead>
+                    <tr><th>Action Item</th><th>Assigned To</th><th>Due Date</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Finalize system requirements</td><td>System Analyst</td><td>20/02/2025</td><td>In Progress</td></tr>
+                    <tr><td>Prepare database & UI design drafts</td><td>DB Designer & UI/UX Designer</td><td>01/03/2025</td><td>Pending</td></tr>
+                    <tr><td>Set up development environment</td><td>Project Manager & Developers</td><td>18/02/2025</td><td>In Progress</td></tr>
+                    <tr><td>Schedule next progress review</td><td>Project Manager</td><td>25/02/2025</td><td>Scheduled</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="project-diagrams" class="page">
+            <h2>Project Planning Documents</h2>
+            
+            <h3>Work Breakdown Structure (WBS)</h3>
+            <div class="placeholder">
+                <h3>📊 WBS Chart</h3>
+                <p>The detailed Work Breakdown Structure chart will be displayed here showing the hierarchical breakdown of project tasks and deliverables.</p>
+            </div>
+
+            <h3>Gantt Chart</h3>
+            <div class="placeholder">
+                <h3>📅 Project Timeline</h3>
+                <p>The project's Gantt chart for tracking the schedule and task dependencies will be displayed here.</p>
+            </div>
+
+            <h3>Network Diagram</h3>
+            <div class="placeholder">
+                <h3>🔗 Task Dependencies</h3>
+                <p>The project's Network Diagram showing critical path and task relationships will be displayed here.</p>
+            </div>
+        </div>
+
+        <div id="cost-management" class="page">
+            <h2>Cost Management & Performance Analysis</h2>
+            
+            <h3>Current Performance Calculations</h3>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Cost Variance (CV)</h4>
+                    <p class="math-formula">CV = EV – AC
+CV = 100,000 – 90,000 = 10,000</p>
+                    <p class="interpretation">✅ The project is under budget by $10,000</p>
+                </div>
+                <div class="grid-item">
+                    <h4>Schedule Variance (SV)</h4>
+                    <p class="math-formula">SV = EV – PV
+SV = 100,000 – 120,000 = –20,000</p>
+                    <p class="interpretation negative">⚠️ The project is behind schedule by $20,000</p>
+                </div>
+                <div class="grid-item">
+                    <h4>Cost Performance Index (CPI)</h4>
+                    <p class="math-formula">CPI = EV ÷ AC
+CPI = 100,000 ÷ 90,000 ≈ 1.11</p>
+                    <p class="interpretation">✅ Good cost performance (cost-efficient)</p>
+                </div>
+                <div class="grid-item">
+                    <h4>Schedule Performance Index (SPI)</h4>
+                    <p class="math-formula">SPI = EV ÷ PV
+SPI = 100,000 ÷ 120,000 ≈ 0.83</p>
+                    <p class="interpretation negative">⚠️ The project is lagging in schedule (time delay)</p>
+                </div>
+            </div>
+
+            <h3>Project Forecasting</h3>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h4>Estimate at Completion (EAC)</h4>
+                    <p class="math-formula">EAC = BAC ÷ CPI
+EAC = 200,000 ÷ 1.11 ≈ 180,180 USD</p>
+                    <p>If the project continues at the same performance, it will finish below the original budget.</p>
+                </div>
+                <div class="grid-item">
+                    <h4>Estimate to Complete (ETC)</h4>
+                    <p class="math-formula">ETC = (BAC – EV) ÷ SPI
+ETC = (200,000 – 100,000) ÷ 0.83
+ETC = 100,000 ÷ 0.83 ≈ 120,482 USD</p>
+                    <p>This is the estimated remaining cost to complete the project.</p>
+                </div>
+            </div>
+
+            <h3>Time Estimate</h3>
+            <div class="budget-highlight">
+                <p class="math-formula">Original Duration = 6 months
+SPI = 0.83
+Time to Complete = Original Duration ÷ SPI
+Time to Complete = 6 ÷ 0.83 ≈ 7.2 months</p>
+                <h4>The project is expected to take about 1.2 months longer than planned</h4>
+            </div>
+
+            <h3>Summary & Interpretation</h3>
+            <table>
+                <thead>
+                    <tr><th>Metric</th><th>Value</th><th>Status</th><th>Interpretation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>CV</td><td>+$10,000</td><td class="interpretation">Under Budget</td><td>Cost performance is excellent</td></tr>
+                    <tr><td>SV</td><td>-$20,000</td><td class="interpretation negative">Behind Schedule</td><td>Time performance needs attention</td></tr>
+                    <tr><td>CPI</td><td>1.11</td><td class="interpretation">Good</td><td>Cost-efficient execution</td></tr>
+                    <tr><td>SPI</td><td>0.83</td><td class="interpretation negative">Poor</td><td>Schedule recovery needed</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Final Recommendations</h3>
+            <ul>
+                <li><strong>Cost Performance:</strong> The project is performing very well in terms of cost (under budget).</li>
+                <li><strong>Schedule Performance:</strong> It is behind schedule, so corrective actions may be needed to recover time.</li>
+                <li><strong>Priority Decision:</strong> If cost savings are the priority → the project is on a good track.</li>
+                <li><strong>Time Priority:</strong> If on-time delivery is the priority → adjustments should be made to catch up.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle page navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const pages = document.querySelectorAll('.page');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Get the page ID from the button's data-page attribute
+                    const targetPageId = button.dataset.page;
+
+                    // Remove 'active' class from all buttons and pages
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+
+                    // Add 'active' class to the clicked button and the target page
+                    button.classList.add('active');
+                    document.getElementById(targetPageId).classList.add('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
